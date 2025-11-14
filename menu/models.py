@@ -52,3 +52,32 @@ class DetallePedido(models.Model):
     cantidad = models.PositiveIntegerField(default=1)
     subtotal = models.DecimalField(max_digits=10, decimal_places=2)
     def __str__(self): return f"{self.producto.nombre} x{self.cantidad}"
+
+class SiteConfig(models.Model):
+    nombre_local = models.CharField("Nombre del local", max_length=100, default="Almacén Videla")
+    
+    # Colores en formato HEX (el admin los puede cambiar)
+    color_primario = models.CharField("Color primario (dorado)", max_length=7, default="#f7d488")
+    color_secundario = models.CharField("Color secundario (rojo)", max_length=7, default="#b01519")
+    color_fondo_superior = models.CharField("Fondo superior", max_length=7, default="#050509")
+    color_fondo_inferior = models.CharField("Fondo inferior", max_length=7, default="#7a0507")
+    
+    # Textos del hero / título del menú
+    titulo_menu = models.CharField("Título del menú", max_length=50, default="MENÚ")
+    subtitulo_menu = models.CharField("Subtítulo", max_length=100, default="Sabores de Punta Arenas")
+    
+    # Imagen de fondo principal (opcional)
+    fondo_menu = models.ImageField(
+        "Imagen de fondo menú",
+        upload_to="fondo/",
+        blank=True,
+        null=True,
+        help_text="Imagen oscura con dibujos de comida (opcional)."
+    )
+
+    class Meta:
+        verbose_name = "Configuración del sitio"
+        verbose_name_plural = "Configuración del sitio"
+
+    def __str__(self):
+        return "Configuración del sitio"

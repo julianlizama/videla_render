@@ -1,273 +1,215 @@
-/* =============================
-    PALETA VIDELA
-============================= */
-:root{
-    --videla-verde:#A3E635;
-    --videla-amarillo:#FFF200;
-    --videla-rojo:#FF003C;
-    --videla-magenta:#B8004B;
-    --videla-negro:#000000;
-    --videla-blanco:#FFFFFF;
+/* ============================================================
+   ESTILO GENERAL – FONDO, TIPOGRAFÍA, COLOR
+   ============================================================ */
+body {
+    font-family: 'Montserrat', sans-serif;
+    /* USAMOS RUTA ABSOLUTA A STATIC */
+    background: url("/static/fondo.png") no-repeat center top;
+    background-size: cover;
+    background-attachment: fixed;
+    color: #ffffff;
 }
 
-/* =============================
-    FONDO GENERAL
-============================= */
-body{
-    margin:0;
-    padding:0;
-    min-height:100vh;
-    background: linear-gradient(to bottom,
-        var(--videla-negro),
-        var(--videla-magenta),
-        var(--videla-negro)
-    );
-    color:var(--videla-blanco);
-    font-family: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
-}
 
-/* =============================
-    NAVBAR VIDELA
-============================= */
-nav.navbar{
-    background-color: var(--videla-negro) !important;
-    border-bottom:3px solid var(--videla-verde);
-}
-nav.navbar .navbar-brand,
-nav.navbar .nav-link{
-    color:var(--videla-blanco) !important;
-    font-weight:700;
-}
-nav.navbar .nav-link:hover{
-    color:var(--videla-amarillo) !important;
-}
-
-/* Logo navbar */
-.logo-navbar{
-    height: 48px;
-    width: auto;
-    border-radius: 6px;
-    box-shadow: 0 0 6px rgba(0,0,0,0.4);
-    transition: .2s;
-}
-.logo-navbar:hover{
-    transform: scale(1.07);
-}
-
-/* =============================
-    TÍTULOS
-============================= */
-h1, h2, h3{
-    font-weight:900;
-    color:var(--videla-amarillo) !important;
-    text-transform:uppercase;
-}
-h4, h5, h6{
-    font-weight:800;
-    color:var(--videla-amarillo) !important;
-}
-
-.text-warning{
-    color:var(--videla-amarillo) !important;
-}
-
-/* =============================
-    HERO / BANNER
-============================= */
-.hero{
-    padding:3rem 1rem;
-    background: radial-gradient(circle at center,
-        var(--videla-rojo),
-        var(--videla-magenta),
-        var(--videla-negro)
-    );
-    border:2px solid var(--videla-verde);
-    box-shadow:0 8px 25px rgba(0,0,0,.7);
-    border-radius:15px;
-}
-
-/* =============================
-    CARDS (PRODUCTOS Y PROMOS)
-============================= */
-.card{
-    background-color:rgba(0,0,0,0.7) !important;
-    border:2px solid var(--videla-verde) !important;
-    border-radius:14px;
-    box-shadow:0 6px 18px rgba(0,0,0,0.6);
-    color:var(--videla-blanco);
-}
-
-.card-title{
-    color:var(--videla-amarillo) !important;
-    font-weight:800;
-}
-
-.small.text-muted{
-    color:#ddd !important;
-    opacity:0.85;
-}
-
-.price{
-    color:var(--videla-amarillo) !important;
-    font-size:1.4rem;
-    font-weight:900;
-}
-
-/* =============================
-    FORMULARIOS
-============================= */
-input, select, textarea{
-    background-color:var(--videla-negro) !important;
-    border:2px solid var(--videla-verde) !important;
-    color:var(--videla-blanco) !important;
-    border-radius:8px;
-}
-input::placeholder{
-    color:#cfcfcf;
-}
-input:focus, select:focus, textarea:focus{
-    border-color:var(--videla-amarillo) !important;
-    box-shadow:0 0 0 .2rem rgba(255,242,0,0.25);
-    outline:none !important;
-}
-
-/* =============================
-    TABLAS (CARRITO, RESUMEN)
-============================= */
-table{
-    border-radius:12px;
-    overflow:hidden;
-}
-
-thead.table-warning{
-    background-color:var(--videla-amarillo) !important;
-    color:#000 !important;
-}
-
-tbody tr{
-    background-color:rgba(0,0,0,0.5) !important;
-    color:var(--videla-blanco) !important;
-}
-
-tfoot{
-    background-color:rgba(0,0,0,0.7) !important;
-}
-
-.text-success{
-    color:var(--videla-verde) !important;
-    font-weight:900;
-}
-
-/* =============================
-    BOTONES VIDELA
-============================= */
-.btn-dorado{
-    background-color: var(--videla-amarillo) !important;
-    color:#000 !important;
-    font-weight:900;
-    border:none;
-    border-radius:14px;
-    padding:10px 22px;
-    transition:.2s;
-}
-.btn-dorado:hover{
-    background-color:var(--videla-verde) !important;
-    transform:scale(1.04);
-}
-
-.btn-verde{
-    background-color:var(--videla-verde) !important;
-    color:#000 !important;
-    font-weight:900;
-    border:none;
-    border-radius:12px;
-}
-.btn-verde:hover{
-    background-color:var(--videla-amarillo) !important;
-}
-
-.btn-outline-light{
-    border-color:var(--videla-amarillo) !important;
-    color:var(--videla-amarillo) !important;
-    font-weight:700;
-}
-.btn-outline-light:hover{
-    background-color:var(--videla-amarillo) !important;
-    color:#000 !important;
-}
-
-/* =============================
-    RECUADRO UBICACIÓN + MAPA
-============================= */
-.ubicacion-videla{
-    background: rgba(0,0,0,0.65);
-    border: 3px solid var(--videla-verde);
-    box-shadow: 0 0 20px rgba(0,0,0,0.8);
-    border-radius: 14px;
-    color: var(--videla-blanco);
-}
-
-.mapa-container{
-    width: 100%;
-    border-radius: 12px;
-    overflow: hidden;
-    border: 2px solid var(--videla-amarillo);
-    box-shadow: 0 0 10px rgba(0,0,0,0.6);
-}
-
-/* =============================
-    BOTÓN WHATSAPP (OPCIONAL)
-============================= */
-.whatsapp-btn{
+/* Overlay MUCHO más suave para que se vea el rojo */
+body::before {
+    content: "";
     position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: #25D366;
+    inset: 0;
+    background: linear-gradient(
+        rgba(0,0,0,0.25),
+        rgba(0,0,0,0.35),
+        rgba(0,0,0,0.45)
+    );
+    z-index: -1;
+}
+
+
+/* ============================================================
+   NAVBAR
+   ============================================================ */
+
+.navbar {
+    background: rgba(0,0,0,0.90) !important;
+    backdrop-filter: blur(6px);
+    border-bottom: 2px solid #c9a43d;
+}
+
+.navbar-brand img.logo-navbar {
+    height: 48px;
+}
+
+.navbar-nav .nav-link {
+    color: #fff !important;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+    color: #c9a43d !important;
+}
+
+
+/* ============================================================
+   BOTONES PERSONALIZADOS
+   ============================================================ */
+
+.btn-dorado {
+    background-color: #c9a43d;
+    color: #000;
+    font-weight: 700;
+    border: none;
+    transition: 0.2s;
+}
+
+.btn-dorado:hover {
+    background-color: #e6c367;
+    color: #000;
+}
+
+.btn-verde {
+    background-color: #28a745;
+    color: #fff;
+    font-weight: 700;
+    border: none;
+}
+
+.btn-verde:hover {
+    background-color: #34ce57;
+}
+
+
+/* ============================================================
+   CARDS (PROMOCIONES / PRODUCTOS / INDEX)
+   ============================================================ */
+
+.card {
+    border: none;
+    background-color: rgba(0,0,0,0.65) !important;
+    backdrop-filter: blur(4px);
     color: white;
-    font-size: 26px;
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-    z-index: 9999;
-    transition: .2s;
-}
-.whatsapp-btn:hover{
-    transform: scale(1.08);
-    background-color:#22bb5b;
+    border-radius: 10px;
+    box-shadow: 0 0 12px rgba(0,0,0,0.5);
 }
 
-/* =============================
-    RESPONSIVE ESPECIAL CELULARES
-============================= */
-@media (max-width: 768px){
-    .card-img-top{
-        height: 160px !important;
-        object-fit: cover;
-    }
-    .price{
-        font-size:1.3rem !important;
-    }
-    h2, h3{
-        font-size:1.6rem;
-    }
+.card .card-title {
+    font-weight: 700;
+    color: #fff;
 }
 
-@media (max-width: 576px){
-    .card{
-        margin-bottom: 1rem;
+.card .price {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #c9a43d;
+}
+
+
+/* ============================================================
+   TABLAS OSCURAS (CARRITO / CHECKOUT)
+   ============================================================ */
+
+.table-dark {
+    background-color: rgba(0,0,0,0.75) !important;
+}
+
+.table-dark th {
+    background-color: #c9a43d !important;
+    color: #000 !important;
+    font-weight: 900;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(255,255,255,0.05) !important;
+}
+
+.table td {
+    color: #fff !important;
+}
+
+
+/* ============================================================
+   HERO (INICIO)
+   ============================================================ */
+
+.hero {
+    background: rgba(0,0,0,0.70);
+    border: 2px solid #c9a43d;
+    box-shadow: 0 0 25px rgba(0,0,0,0.6);
+}
+
+.hero .btn {
+    font-size: 1.1rem;
+}
+
+
+/* ============================================================
+   UBICACION (RECUADRO DEL MAPA)
+   ============================================================ */
+
+.ubicacion-videla {
+    background: rgba(0,0,0,0.70);
+    border: 2px solid #c9a43d;
+    box-shadow: 0 0 25px rgba(0,0,0,0.6);
+}
+
+.mapa-container iframe {
+    border-radius: 8px;
+    width: 100%;
+}
+
+
+/* ============================================================
+   FORMULARIOS (CHECKOUT)
+   ============================================================ */
+
+.form-control,
+.form-select {
+    background-color: rgba(20,20,20,0.8) !important;
+    color: white !important;
+    border: 1px solid #555 !important;
+}
+
+.form-control::placeholder {
+    color: #b3b3b3 !important;
+}
+
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+
+footer {
+    background: rgba(0,0,0,0.90);
+    border-top: 2px solid #c9a43d;
+    padding: 25px 0;
+    color: #ffffff;
+}
+
+
+/* ============================================================
+   MOBILE RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 768px) {
+
+    .navbar-brand img.logo-navbar {
+        height: 40px;
     }
-    .btn-verde, .btn-dorado{
-        width:100%;
-        text-align:center;
+
+    .hero {
+        margin: 10px;
+        padding: 25px;
     }
-    nav.navbar .navbar-brand img{
-        height:40px;
+
+    .card {
+        margin-bottom: 15px;
     }
-    .mapa-container iframe{
-        height:260px !important;
+
+    .navbar-nav .nav-link {
+        padding: 10px 0 !important;
     }
 }

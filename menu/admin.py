@@ -1,6 +1,6 @@
 
 from django.contrib import admin
-from .models import Categoria, Producto, Promocion, Cliente, Pedido, DetallePedido
+from .models import  SiteConfig, Categoria, Producto, Promocion, Cliente, Pedido, DetallePedido
 
 @admin.register(Categoria)
 class CategoriaAdmin(admin.ModelAdmin):
@@ -33,3 +33,7 @@ class PedidoAdmin(admin.ModelAdmin):
     list_display = ("id","cliente","tipo_entrega","estado","total","fecha")
     list_filter = ("estado","tipo_entrega")
     inlines = [DetalleInline]
+    
+@admin.register(SiteConfig)
+class SiteConfigAdmin(admin.ModelAdmin):
+    list_display = ("nombre_local", "color_primario", "color_secundario")
