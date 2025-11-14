@@ -42,6 +42,18 @@ nav.navbar .nav-link:hover{
     color:var(--videla-amarillo) !important;
 }
 
+/* Logo navbar */
+.logo-navbar{
+    height: 48px;
+    width: auto;
+    border-radius: 6px;
+    box-shadow: 0 0 6px rgba(0,0,0,0.4);
+    transition: .2s;
+}
+.logo-navbar:hover{
+    transform: scale(1.07);
+}
+
 /* =============================
     TÍTULOS
 ============================= */
@@ -183,8 +195,9 @@ tfoot{
     background-color:var(--videla-amarillo) !important;
     color:#000 !important;
 }
+
 /* =============================
-    RECUADRO DE UBICACIÓN + MAPA
+    RECUADRO UBICACIÓN + MAPA
 ============================= */
 .ubicacion-videla{
     background: rgba(0,0,0,0.65);
@@ -201,15 +214,60 @@ tfoot{
     border: 2px solid var(--videla-amarillo);
     box-shadow: 0 0 10px rgba(0,0,0,0.6);
 }
-/* Logo en navbar */
-.logo-navbar{
-    height: 48px;       /* tamaño perfecto para navbar */
-    width: auto;
-    border-radius: 6px;
-    box-shadow: 0 0 6px rgba(0,0,0,0.4);
+
+/* =============================
+    BOTÓN WHATSAPP (OPCIONAL)
+============================= */
+.whatsapp-btn{
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #25D366;
+    color: white;
+    font-size: 26px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    z-index: 9999;
     transition: .2s;
 }
+.whatsapp-btn:hover{
+    transform: scale(1.08);
+    background-color:#22bb5b;
+}
 
-.logo-navbar:hover{
-    transform: scale(1.07);
+/* =============================
+    RESPONSIVE ESPECIAL CELULARES
+============================= */
+@media (max-width: 768px){
+    .card-img-top{
+        height: 160px !important;
+        object-fit: cover;
+    }
+    .price{
+        font-size:1.3rem !important;
+    }
+    h2, h3{
+        font-size:1.6rem;
+    }
+}
+
+@media (max-width: 576px){
+    .card{
+        margin-bottom: 1rem;
+    }
+    .btn-verde, .btn-dorado{
+        width:100%;
+        text-align:center;
+    }
+    nav.navbar .navbar-brand img{
+        height:40px;
+    }
+    .mapa-container iframe{
+        height:260px !important;
+    }
 }

@@ -1,96 +1,119 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
-    <title>Pago exitoso - Videla</title>
+    <title>Quincho Videla - Carrito</title>
 
-    <!-- Bootstrap -->
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <!-- Muy importante para móviles -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Estilo Videla -->
+    <!-- Bootstrap 5 -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    >
+
+    <!-- Tu CSS -->
     <link rel="stylesheet" href="{% static 'estilo.css' %}">
 </head>
 
-
-<body>
+<body class="bg-light d-flex flex-column min-vh-100">
 
     <!-- NAVBAR -->
-    <nav class="navbar navbar-expand-lg">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm sticky-top">
         <div class="container">
-          <a class="navbar-brand d-flex align-items-center" href="/">
-    <img src="{% static 'logo.png' %}" alt="Videla Logo" class="logo-navbar me-2">
-</a>
+            <a class="navbar-brand d-flex align-items-center" href="/">
+                <img src="{% static 'logo.png' %}" alt="Videla Logo" class="logo-navbar me-2">
+                <span class="fw-semibold">Quincho Videla</span>
+            </a>
 
-          <button class="navbar-toggler btn btn-sm btn-dorado" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
-            ☰
-          </button>
-          <div class="collapse navbar-collapse" id="nav">
-            <ul class="navbar-nav ms-auto">
-              <li class="nav-item"><a class="nav-link" href="{% url 'menu' %}">Menú</a></li>
-              <li class="nav-item"><a class="nav-link" href="{% url 'promociones' %}">Promociones</a></li>
-              <li class="nav-item"><a class="nav-link" href="{% url 'carrito' %}">Carrito</a></li>
-            </ul>
-          </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="nav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'menu' %}">Menú</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'promociones' %}">Promociones</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{% url 'carrito' %}">
+                            Carrito
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </nav>
 
-    <!-- CONTENIDO ORIGINAL (SIN CAMBIOS, SOLO ESTILO) -->
-    <div class="container mt-5">
-      <h2 class="mb-4 text-center text-warning">🛒 Tu Carrito</h2>
+    <!-- CONTENIDO -->
+    <main class="flex-grow-1">
+        <div class="container py-4 py-md-5">
+            <h1 class="mb-4 text-center text-warning">🛒 Tu Carrito</h1>
 
-      <div class="table-responsive">
-        <table class="table table-dark table-striped table-hover align-middle">
-          <thead class="table-warning text-dark">
-            <tr>
-              <th>Producto</th>
-              <th class="text-end">Cantidad</th>
-              <th class="text-end">Subtotal</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for it in items %}
-            <tr>
-              <td>{{ it.nombre }}</td>
-              <td class="text-end">{{ it.cantidad }}</td>
-              <td class="text-end">${{ it.subtotal|floatformat:0 }}</td>
-              <td class="text-end">
-                <a href="{% url 'eliminar_carrito' it.id %}" class="btn btn-sm btn-outline-danger">
-                  Quitar
+            <div class="table-responsive">
+                <table class="table table-dark table-striped table-hover table-sm align-middle rounded-3 overflow-hidden">
+                    <thead class="table-warning text-dark">
+                        <tr>
+                            <th>Producto</th>
+                            <th class="text-end">Cantidad</th>
+                            <th class="text-end">Subtotal</th>
+                            <th class="text-end"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for it in items %}
+                        <tr>
+                            <td>{{ it.nombre }}</td>
+                            <td class="text-end">{{ it.cantidad }}</td>
+                            <td class="text-end">${{ it.subtotal|floatformat:0 }}</td>
+                            <td class="text-end">
+                                <a href="{% url 'eliminar_carrito' it.id %}" class="btn btn-sm btn-outline-danger">
+                                    Quitar
+                                </a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4" class="text-center py-4 text-secondary">
+                                Tu carrito está vacío 😕
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+
+                    {% if items %}
+                    <tfoot class="table-dark">
+                        <tr>
+                            <th colspan="2" class="text-end">Total</th>
+                            <th class="text-end text-success">${{ total|floatformat:0 }}</th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                    {% endif %}
+                </table>
+            </div>
+
+            <div class="d-flex flex-column flex-sm-row justify-content-between gap-2 mt-4">
+                <a href="{% url 'menu' %}" class="btn btn-outline-secondary w-100 w-sm-auto">
+                    ← Seguir comprando
                 </a>
-              </td>
-            </tr>
-            {% empty %}
-            <tr>
-              <td colspan="4" class="text-center py-4 text-secondary">
-                Tu carrito está vacío 😕
-              </td>
-            </tr>
-            {% endfor %}
-          </tbody>
-          {% if items %}
-          <tfoot class="table-dark">
-            <tr>
-              <th colspan="2" class="text-end">Total</th>
-              <th class="text-end text-success">${{ total|floatformat:0 }}</th>
-              <th></th>
-            </tr>
-          </tfoot>
-          {% endif %}
-        </table>
-      </div>
+                {% if items %}
+                <a href="{% url 'checkout' %}" class="btn btn-success w-100 w-sm-auto">
+                    Finalizar compra
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </main>
 
-      <div class="d-flex justify-content-between mt-4">
-        <a href="{% url 'menu' %}" class="btn btn-outline-light">← Seguir comprando</a>
-        <a href="{% url 'checkout' %}" class="btn btn-success">Finalizar compra</a>
-      </div>
-    </div>
-
-    <!-- BOOTSTRAP JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-</body>
-</html>
+    <!-- JS de Bootstrap -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-Yvpc
