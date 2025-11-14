@@ -1,14 +1,16 @@
-
+# videla/settings.py
 import os
 from pathlib import Path
-from dotenv import load_dotenv
-load_dotenv()
+
+# 👇 YA NO USAMOS dotenv AQUÍ
+# from dotenv import load_dotenv
+# load_dotenv()
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 SECRET_KEY = os.getenv("SECRET_KEY", "dev-secret")
-DEBUG = os.getenv("DEBUG","1") == "1"
-ALLOWED_HOSTS = [h.strip() for h in os.getenv("ALLOWED_HOSTS","*").split(",")]
+DEBUG = os.getenv("DEBUG", "1") == "1"
+ALLOWED_HOSTS = [h.strip() for h in os.getenv("ALLOWED_HOSTS", "*").split(",")]
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -23,7 +25,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
-    
+
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -32,8 +34,8 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-
 ROOT_URLCONF = "videla.urls"
+
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
@@ -59,10 +61,8 @@ DATABASES = {
     }
 }
 
-
-
-
 AUTH_PASSWORD_VALIDATORS = []
+
 LANGUAGE_CODE = "es-cl"
 TIME_ZONE = "America/Punta_Arenas"
 USE_I18N = True
@@ -72,7 +72,6 @@ STATIC_URL = "/static/"
 STATICFILES_DIRS = [BASE_DIR / "menu" / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
