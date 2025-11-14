@@ -138,15 +138,16 @@ body::before {
     box-shadow: 0 0 12px rgba(0,0,0,0.5);
 }
 
-.card .card-title {
-    font-weight: 700;
-    color: #fff;
-}
-
 .card .price {
     font-size: 1.2rem;
     font-weight: 700;
     color: #c9a43d;
+}
+
+
+.card .card-title {
+    font-weight: 700;
+    color: #fff;
 }
 
 
