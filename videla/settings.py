@@ -21,8 +21,9 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    "whitenoise.middleware.WhiteNoiseMiddleware", 
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
+    
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -30,6 +31,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
 
 ROOT_URLCONF = "videla.urls"
 TEMPLATES = [
@@ -52,12 +54,8 @@ WSGI_APPLICATION = "videla.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.getenv("DB_NAME","videla_db"),
-        "USER": os.getenv("DB_USER","videla_user"),
-        "PASSWORD": os.getenv("DB_PASSWORD","videla_pass"),
-        "HOST": os.getenv("DB_HOST","127.0.0.1"),
-        "PORT": os.getenv("DB_PORT","5432"),
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
 
