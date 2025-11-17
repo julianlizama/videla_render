@@ -7,16 +7,19 @@
 /* ===========================
    ESTILOS PANEL DE COCINA
    =========================== */
+
+/* Que el texto sea claro sobre el fondo oscuro global */
 body {
     color: #fff;
 }
 
-/* Contenedor */
+/* Contenedor principal */
 .kitchen-wrapper {
     margin-top: 25px;
     margin-bottom: 25px;
 }
-/* PESTAÑAS SUPERIORES */
+
+/* Pestañas superiores (Caja / Cocina / Reportes) */
 .cash-tabs {
     display: flex;
     justify-content: center;
@@ -35,7 +38,18 @@ body {
     transition: all 0.2s ease;
 }
 
-/* Título */
+.cash-tab:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.cash-tab.active {
+    background: #c9ff00;
+    color: #000;
+    border-color: #c9ff00;
+    font-weight: 700;
+}
+
+/* Título principal */
 .kitchen-title {
     font-size: 2.4rem;
     font-weight: 800;
@@ -45,7 +59,7 @@ body {
     letter-spacing: 1px;
 }
 
-/* Secciones */
+/* Títulos de secciones */
 .kitchen-section-title {
     font-size: 1.4rem;
     font-weight: 700;
@@ -78,7 +92,7 @@ body {
     margin-top: 10px;
 }
 
-/* Detalle */
+/* Nota / detalle */
 .kitchen-detail {
     margin-top: 10px;
     background: rgba(50,50,50,0.5);
@@ -122,16 +136,19 @@ setTimeout(function() {
 </script>
 
 <div class="container kitchen-wrapper">
-      <div class="cash-tabs mb-4">
-    <a href="{% url 'caja:caja_panel' %}" class="cash-tab">Presencial</a>
-    <a href="{% url 'caja:cocina_panel' %}" class="cash-tab active">Pedidos Cocina</a>
-    <a href="{% url 'caja:inventario_panel' %}" class="cash-tab">Reportes</a>
-</div>
+
+    <!-- Pestañas superiores -->
+    <div class="cash-tabs mb-4">
+        <a href="{% url 'caja:caja_panel' %}" class="cash-tab">Presencial</a>
+        <a href="{% url 'caja:cocina_panel' %}" class="cash-tab active">Pedidos Cocina</a>
+        <a href="{% url 'caja:inventario_panel' %}" class="cash-tab">Reportes</a>
+    </div>
 
     <h1 class="kitchen-title">Panel de Cocina</h1>
 
+    <!-- Botón para abrir la vista de TV en nueva pestaña -->
     <div class="text-center mb-4">
-        <a href="/caja/cocina/tv/" target="_blank"
+        <a href="{% url 'caja:cocina_tv' %}" target="_blank"
            class="btn btn-warning kitchen-tv-btn">
             Abrir pantalla de TV (solo lectura)
         </a>
@@ -147,17 +164,21 @@ setTimeout(function() {
 
             <span class="kitchen-id">#{{ p.id }}</span>
 
-            <div class="kitchen-client">{{ p.nombre_cliente }}</div>
+            <div class="kitchen-client">
+                {{ p.nombre_cliente|default:"Sin nombre" }}
+            </div>
 
             {% if p.nota %}
-            <div class="kitchen-detail">{{ p.nota }}</div>
+                <div class="kitchen-detail">{{ p.nota }}</div>
             {% endif %}
 
-            <a href="{% url 'caja:cocina_cambiar_estado' p.id 'en_cocina' %}"
-   class="btn kitchen-btn kitchen-btn-verde">
-    Tomar pedido
-</a>
-
+            <div class="mt-3">
+                <!-- BOTÓN TOMAR PEDIDO -> en_cocina -->
+                <a href="{% url 'caja:cocina_cambiar_estado' p.id 'en_cocina' %}"
+                   class="btn kitchen-btn kitchen-btn-verde">
+                    Tomar pedido
+                </a>
+            </div>
 
         </div>
     {% empty %}
@@ -176,14 +197,16 @@ setTimeout(function() {
 
             <span class="kitchen-id">#{{ p.id }}</span>
 
-            <div class="kitchen-client">{{ p.nombre_cliente }}</div>
+            <div class="kitchen-client">
+                {{ p.nombre_cliente|default:"Sin nombre" }}
+            </div>
 
             {% if p.nota %}
-            <div class="kitchen-detail">{{ p.nota }}</div>
+                <div class="kitchen-detail">{{ p.nota }}</div>
             {% endif %}
 
             <div class="mt-3">
-                <!-- BOTÓN MARCAR LISTO -->
+                <!-- BOTÓN MARCAR LISTO -> listo -->
                 <a href="{% url 'caja:cocina_cambiar_estado' p.id 'listo' %}"
                    class="btn kitchen-btn kitchen-btn-rojo">
                     Pedido listo
