@@ -40,12 +40,8 @@ def cocina_tv(request):
 # PANEL DE COCINA (PC)
 # ============================================================
 
-@login_required
+
 def cocina_panel(request):
-    """
-    Panel de cocina en el PC.
-    Desde aquí se toman pedidos y se marcan como listos.
-    """
     pedidos_nuevos = Pedido.objects.filter(
         visible_en_cocina=True,
         estado="pendiente",
@@ -63,7 +59,6 @@ def cocina_panel(request):
     return render(request, "caja/cocina_panel.html", contexto)
 
 
-@login_required
 def cocina_cambiar_estado(request, pedido_id, nuevo_estado):
     """
     Cambia el estado de un pedido desde el panel de cocina.
@@ -86,11 +81,6 @@ def cocina_cambiar_estado(request, pedido_id, nuevo_estado):
         pedido.visible_en_cocina = False
 
     pedido.save()
-    return redirect("caja:cocina_panel")
-
-
-def cocina_cambiar_estado(request, pedido_id, nuevo_estado):
-    # ... tu lógica para cambiar estado ...
     return redirect("caja:cocina_panel")
 
 
