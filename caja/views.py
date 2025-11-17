@@ -86,7 +86,13 @@ def cocina_cambiar_estado(request, pedido_id, nuevo_estado):
         pedido.visible_en_cocina = False
 
     pedido.save()
-    return redirect("cocina_panel")
+    return redirect("caja:cocina_panel")
+
+
+def cocina_cambiar_estado(request, pedido_id, nuevo_estado):
+    # ... tu lógica para cambiar estado ...
+    return redirect("caja:cocina_panel")
+
 
 
 # ============================================================
