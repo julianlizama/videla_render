@@ -1,0 +1,214 @@
+/* ===========================
+   PANTALLA DE COCINA – PROFESIONAL
+   =========================== */
+
+/* FUENTE GENERAL MÁS GRANDE PARA QUE SE LEA DESDE LEJOS */
+body {
+    font-size: 18px;
+}
+
+@media (min-width: 1200px) {
+    body {
+        font-size: 20px;
+    }
+}
+
+/* TITULOS PRINCIPALES */
+.kitchen-title {
+    font-size: 2.8rem;
+    font-weight: 800;
+    text-align: center;
+    letter-spacing: 0.06em;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.kitchen-subtitle {
+    font-size: 1.5rem;
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: 25px;
+    color: #eeeeee;
+}
+
+/* COLUMNAS DE PEDIDOS */
+.kitchen-column {
+    margin-bottom: 20px;
+}
+
+.kitchen-column-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #555;
+    margin-bottom: 18px;
+    text-transform: uppercase;
+}
+
+/* TARJETAS CONTENEDORAS DE CADA BLOQUE (NUEVOS / EN COCINA) */
+.kitchen-card-wrapper {
+    background: rgba(0, 0, 0, 0.80);
+    border-radius: 16px;
+    border: 2px solid #444;
+    padding: 16px 18px;
+    box-shadow: 0 0 22px rgba(0, 0, 0, 0.9);
+}
+
+/* CADA PEDIDO DENTRO DE UNA COLUMNA */
+.kitchen-ticket {
+    background: rgba(15, 15, 15, 0.96);
+    border-radius: 14px;
+    border: 1px solid #555;
+    padding: 10px 14px;
+    margin-bottom: 14px;
+}
+
+/* CABECERA DE CADA PEDIDO */
+.kitchen-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.kitchen-id {
+    background: #c9ff00;
+    color: black;
+    font-size: 1.3rem;
+    font-weight: 800;
+    padding: 4px 12px;
+    border-radius: 999px;
+}
+
+.kitchen-origin-caja {
+    background: #00c853;
+    color: #ffffff;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-left: 6px;
+}
+
+.kitchen-origin-web {
+    background: #29b6f6;
+    color: #000000;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-left: 6px;
+}
+
+.kitchen-time {
+    font-size: 0.95rem;
+    color: #bdbdbd;
+}
+
+/* DATOS DEL CLIENTE */
+.kitchen-client {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.kitchen-phone,
+.kitchen-address {
+    font-size: 0.98rem;
+    color: #eeeeee;
+}
+
+/* CUADRO DE DETALLE (LA COMANDA ESCRITA) */
+.kitchen-detail {
+    margin-top: 8px;
+    padding: 8px 10px;
+    background: rgba(50, 50, 50, 0.45);
+    border-left: 4px solid #c9ff00;
+    font-size: 1.05rem;
+    white-space: pre-line; /* respeta saltos de línea */
+}
+
+/* TAGS: FORMA DE PAGO, ENTREGA, ETC */
+.kitchen-tags {
+    margin-top: 8px;
+}
+
+.kitchen-tag {
+    display: inline-block;
+    background: #424242;
+    border-radius: 999px;
+    padding: 4px 10px;
+    margin-right: 6px;
+    font-size: 0.9rem;
+    color: #fff;
+}
+
+/* TOTAL */
+.kitchen-total {
+    margin-top: 8px;
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+/* BOTONES GRANDES Y LEGIBLES */
+.kitchen-actions {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: space-between;
+}
+
+.kitchen-btn {
+    font-size: 1rem !important;
+    padding: 8px 20px !important;
+    border-radius: 12px !important;
+    font-weight: 700 !important;
+}
+
+.kitchen-btn-amarillo {
+    background: #c9ff00 !important;
+    color: #000 !important;
+    border: none !important;
+}
+
+.kitchen-btn-rojo {
+    background: #ff4444 !important;
+    color: #fff !important;
+    border: none !important;
+}
+
+.kitchen-btn-outline {
+    border: 2px solid #ffffff !important;
+    color: #ffffff !important;
+    background: transparent !important;
+}
+
+/* ESPACIADO ENTRE PEDIDOS */
+.kitchen-ticket + .kitchen-ticket {
+    margin-top: 16px;
+}
+
+/* VERSIÓN PARA PANTALLAS GRANDES (TV / MONITOR GRANDE) */
+@media (min-width: 1600px) {
+    .kitchen-card-wrapper {
+        padding: 22px 24px;
+    }
+    .kitchen-ticket {
+        padding: 14px 18px;
+    }
+    .kitchen-id {
+        font-size: 1.6rem;
+        padding: 6px 16px;
+    }
+    .kitchen-detail {
+        font-size: 1.2rem;
+    }
+    .kitchen-total {
+        font-size: 1.6rem;
+    }
+    .kitchen-btn {
+        font-size: 1.05rem !important;
+        padding: 10px 24px !important;
+    }
+}

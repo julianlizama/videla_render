@@ -6,8 +6,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpRequest, HttpResponse
 from django.urls import reverse
 from django.db.models import Prefetch
-
 from .models import Producto, Promocion, Categoria
+from caja.models import Pedido, DetallePedido, Boleta
+from .models import Producto
 
 
 # =========================
@@ -331,12 +332,59 @@ def checkout(request: HttpRequest) -> HttpResponse:
 
 def success(request: HttpRequest) -> HttpResponse:
     """
-    Página de éxito de pago.
-    Si quieres vaciar el carrito al terminar, descomenta las 2 líneas.
+    Página cuando el pago fue exitoso.
+    Aquí convertimos el carrito en un Pedido + Detalles + Boleta.
     """
-    # request.session.pop("cart", None)
-    # request.session.modified = True
+    cart = _get_cart(request)
+    cart = _normalize_cart_dict(cart)
+
+    if cart:
+        # 1) Crear el Pedido (comanda)
+        pedido = Pedido.objects.create(
+            origen="web",
+            canal="web",
+            estado="pendiente",
+            nombre_cliente="",      # si después pides nombre, lo pones aquí
+            visible_en_cocina=True,
+        )
+
+        # 2) Crear los DetallePedido
+        for pid, data in cart.items():
+            try:
+                producto = Producto.objects.get(pk=int(pid))
+            except Exception:
+                continue
+
+            try:
+                cantidad = int(data.get("cantidad", 1))
+            except Exception:
+                cantidad = 1
+
+            precio = Decimal(str(data.get("precio", producto.precio)))
+
+            DetallePedido.objects.create(
+                pedido=pedido,
+                producto=producto,
+                nombre_producto=producto.nombre,
+                cantidad=cantidad,
+                precio_unitario=precio,
+                subtotal=precio * cantidad,
+            )
+
+        # 3) Crear la Boleta ligada al Pedido
+        Boleta.objects.create(
+            pedido=pedido,
+            folio=Boleta.siguiente_folio(),
+            monto_total=pedido.total,
+            metodo_pago="mercadopago",
+        )
+
+        # 4) Vaciar el carrito de la sesión (opcional pero recomendable)
+        request.session.pop("cart", None)
+        request.session.modified = True
+
     return render(request, "success.html")
+
 
 
 def failure(request: HttpRequest) -> HttpResponse:
@@ -351,3 +399,43 @@ def pending(request: HttpRequest) -> HttpResponse:
     Página cuando el pago queda pendiente.
     """
     return render(request, "pending.html")
+
+
+# nuevoooooooooooooooooooooooooooooooooooooooooo
+
+from caja.models import Pedido, DetallePedido
+from .models import Producto
+
+def success(request: HttpRequest) -> HttpResponse:
+    cart = _get_cart(request)
+    cart = _normalize_cart_dict(cart)
+
+    if cart:
+        pedido = Pedido.objects.create(
+            origen="web",
+            canal="web",
+            estado="pendiente",
+            nombre_cliente="",  # si después pides nombre, lo pones aquí
+            visible_en_cocina=True,
+        )
+        for pid, data in cart.items():
+            try:
+                producto = Producto.objects.get(pk=int(pid))
+            except Producto.DoesNotExist:
+                continue
+            cantidad = data.get("cantidad", 1)
+            precio = Decimal(str(data.get("precio", producto.precio)))
+            DetallePedido.objects.create(
+                pedido=pedido,
+                producto=producto,
+                nombre_producto=producto.nombre,
+                cantidad=cantidad,
+                precio_unitario=precio,
+                subtotal=precio * cantidad,
+            )
+
+        # aquí podrías vaciar el carrito si quieres
+        # request.session.pop("cart", None)
+        # request.session.modified = True
+
+    return render(request, "success.html")

@@ -1,0 +1,547 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid mt-4 mb-5">
+
+  <!-- HEADER / NAV SUPERIOR -->
+  <div class="d-flex justify-content-between align-items-start mb-4 flex-wrap gap-3">
+    <div>
+      <h2 class="text-white mb-2">Dashboard Quincho Videla</h2>
+      <p class="text-white-50 mb-0 small">
+        Panel central de ventas, inventario y movimientos. Todo lo importante en una sola vista.
+      </p>
+    </div>
+
+    <div class="d-flex flex-wrap gap-2">
+      <a href="{% url 'caja_panel' %}"
+         class="btn btn-sm px-3 py-2"
+         style="background:#4b3b7a;color:#fff;border-radius:999px;">
+        Caja presencial
+      </a>
+      <a href="{% url 'cocina_panel' %}"
+         class="btn btn-sm px-3 py-2"
+         style="background:#4b3b7a;color:#fff;border-radius:999px;">
+        Panel cocina
+      </a>
+      <a href="{% url 'inventario_panel' %}"
+         class="btn btn-sm px-3 py-2"
+         style="background:#c9ff00;color:#000;font-weight:600;border-radius:999px;">
+        Dashboard
+      </a>
+    </div>
+  </div>
+
+  <!-- PESTAÑAS DE SECCIÓN (ANCLAS) -->
+  <div class="card mb-4 border-0 shadow-sm"
+       style="background:rgba(0,0,0,0.75);border-radius:16px;">
+    <div class="card-body py-2 px-3">
+      <ul class="nav nav-pills small flex-wrap">
+        <li class="nav-item me-2 mb-2">
+          <a class="nav-link active px-3 py-1" href="#seccion-resumen">
+            Resumen
+          </a>
+        </li>
+        <li class="nav-item me-2 mb-2">
+          <a class="nav-link px-3 py-1" href="#seccion-graficos">
+            Gráficos
+          </a>
+        </li>
+        <li class="nav-item me-2 mb-2">
+          <a class="nav-link px-3 py-1" href="#seccion-ventas">
+            Ventas
+          </a>
+        </li>
+        <li class="nav-item me-2 mb-2">
+          <a class="nav-link px-3 py-1" href="#seccion-inventario">
+            Inventario
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ==================== SECCIÓN RESUMEN ==================== -->
+  <section id="seccion-resumen" class="mb-5">
+
+    <!-- FILA 1: KPIs VENTAS -->
+    <div class="row g-4 mb-3">
+      <!-- Ventas hoy -->
+      <div class="col-lg-4 col-md-6">
+        <div class="card border-0 shadow-sm h-100"
+             style="background:rgba(0,0,0,0.9);border-radius:18px;">
+          <div class="card-body text-white p-4">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <div>
+                <div class="small text-white-50 text-uppercase mb-1">Ventas de hoy</div>
+                <div class="fs-2 fw-semibold mb-1">
+                  ${{ total_venta_hoy|default:0|floatformat:0 }}
+                </div>
+              </div>
+              <span class="badge rounded-pill"
+                    style="background:#c9ff00;color:#000;font-size:0.75rem;">
+                Hoy
+              </span>
+            </div>
+            <hr class="border-secondary opacity-25 my-3">
+            <div class="d-flex justify-content-between small text-white-50">
+              <span>Boletas<br><strong class="text-white fs-6">{{ total_boletas_hoy|default:0 }}</strong></span>
+              <span class="text-end">Ticket promedio<br>
+                <strong class="text-white fs-6">
+                  ${{ ticket_promedio_hoy|default:0|floatformat:0 }}
+                </strong>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ventas mes -->
+      <div class="col-lg-4 col-md-6">
+        <div class="card border-0 shadow-sm h-100"
+             style="background:rgba(0,0,0,0.9);border-radius:18px;">
+          <div class="card-body text-white p-4">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <div>
+                <div class="small text-white-50 text-uppercase mb-1">Ventas del mes</div>
+                <div class="fs-2 fw-semibold mb-1">
+                  ${{ total_venta_mes|default:0|floatformat:0 }}
+                </div>
+              </div>
+              <span class="badge rounded-pill bg-secondary"
+                    style="font-size:0.75rem;">
+                Mes actual
+              </span>
+            </div>
+            <hr class="border-secondary opacity-25 my-3">
+            <div class="d-flex justify-content-between small text-white-50">
+              <span>Boletas<br><strong class="text-white fs-6">{{ total_boletas_mes|default:0 }}</strong></span>
+              <span class="text-end">Ticket promedio<br>
+                <strong class="text-white fs-6">
+                  ${{ ticket_promedio_mes|default:0|floatformat:0 }}
+                </strong>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Export / acciones -->
+      <div class="col-lg-4 col-md-12">
+        <div class="card border-0 shadow-sm h-100"
+             style="background:rgba(0,0,0,0.9);border-radius:18px;">
+          <div class="card-body text-white p-4 d-flex flex-column justify-content-between">
+            <div>
+              <div class="small text-white-50 text-uppercase mb-1">Acciones de ventas</div>
+              <h6 class="mb-2">Exportación para contabilidad</h6>
+              <p class="small text-white-50 mb-0">
+                Descarga el resumen de boletas emitidas para revisarlo en Excel
+                o compartirlo con tu contador.
+              </p>
+            </div>
+            <div class="d-flex flex-wrap gap-2 mt-3">
+              <a href="{% url 'exportar_ventas_excel' %}"
+                 class="btn btn-sm px-3 py-2"
+                 style="background:#c9ff00;color:#000;font-weight:600;border-radius:999px;">
+                Exportar ventas a Excel
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FILA 2: KPIs INVENTARIO -->
+    <div class="row g-4">
+      <!-- Productos en inventario -->
+      <div class="col-lg-4 col-md-6">
+        <div class="card border-0 shadow-sm h-100"
+             style="background:rgba(0,0,0,0.9);border-radius:18px;">
+          <div class="card-body text-white p-4">
+            <div class="small text-white-50 text-uppercase mb-1">Productos en inventario</div>
+            <div class="fs-2 fw-semibold mb-2">
+              {{ total_productos|default:0 }}
+            </div>
+            <p class="small text-white-50 mb-0">
+              Total de referencias activas registradas en el sistema.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Valor inventario -->
+      <div class="col-lg-4 col-md-6">
+        <div class="card border-0 shadow-sm h-100"
+             style="background:rgba(0,0,0,0.9);border-radius:18px;">
+          <div class="card-body text-white p-4">
+            <div class="small text-white-50 text-uppercase mb-1">Valor estimado del inventario</div>
+            <div class="fs-2 fw-semibold mb-2">
+              ${{ valor_inventario|default:0|floatformat:0 }}
+            </div>
+            <p class="small text-white-50 mb-0">
+              Cálculo basado en el precio costo de cada producto.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Críticos + export inventario -->
+      <div class="col-lg-4 col-md-12">
+        <div class="card border-0 shadow-sm h-100"
+             style="background:rgba(0,0,0,0.9);border-radius:18px;">
+          <div class="card-body text-white p-4 d-flex flex-column justify-content-between">
+            <div>
+              <div class="small text-white-50 text-uppercase mb-1">Stock crítico</div>
+              <div class="fs-3 fw-semibold mb-1">
+                {{ productos_criticos|length|default:0 }}
+              </div>
+              <p class="small text-white-50 mb-0">
+                Productos con stock menor o igual a 10 unidades.
+                Útil para planificar reposiciones.
+              </p>
+            </div>
+            <div class="d-flex flex-wrap gap-2 mt-3">
+              <a href="{% url 'exportar_inventario_excel' %}"
+                 class="btn btn-sm px-3 py-2"
+                 style="background:#c9ff00;color:#000;font-weight:600;border-radius:999px;">
+                Exportar inventario a Excel
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SECCIÓN GRÁFICOS ==================== -->
+  <section id="seccion-graficos" class="mb-5">
+    <div class="row g-4">
+      <!-- Gráfico ventas últimos días -->
+      <div class="col-lg-6">
+        <div class="card border-0 shadow-sm h-100"
+             style="background:rgba(0,0,0,0.9);border-radius:20px;">
+          <div class="card-body text-white p-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <div>
+                <h5 class="mb-1">Ventas últimos 7 días</h5>
+                <span class="small text-white-50">
+                  Tendencia diaria de ventas totales.
+                </span>
+              </div>
+            </div>
+            <div class="pt-2">
+              <canvas id="ventasChart" height="160"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gráfico movimientos inventario -->
+      <div class="col-lg-6">
+        <div class="card border-0 shadow-sm h-100"
+             style="background:rgba(0,0,0,0.9);border-radius:20px;">
+          <div class="card-body text-white p-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <div>
+                <h5 class="mb-1">Movimientos de inventario (7 días)</h5>
+                <span class="small text-white-50">
+                  Comparación entre entradas y salidas.
+                </span>
+              </div>
+            </div>
+            <div class="pt-2">
+              <canvas id="movimientosChart" height="160"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SECCIÓN VENTAS ==================== -->
+  <section id="seccion-ventas" class="mb-5">
+    <div class="row g-4">
+      <!-- Boletas de hoy -->
+      <div class="col-lg-6">
+        <div class="card border-0 shadow-sm h-100"
+             style="background:rgba(0,0,0,0.9);border-radius:20px;">
+          <div class="card-body text-white p-4">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <div>
+                <h5 class="mb-1">Boletas de hoy</h5>
+                <span class="small text-white-50">
+                  Ventas registradas durante la jornada actual.
+                </span>
+              </div>
+            </div>
+
+            <div class="table-responsive mt-3" style="max-height:290px;overflow:auto;">
+              <table class="table table-sm table-dark table-hover align-middle mb-0">
+                <thead style="background:rgba(255,255,255,0.04);">
+                  <tr class="small text-white-50">
+                    <th style="width:90px;">Folio</th>
+                    <th style="width:120px;">Hora</th>
+                    <th>Cliente</th>
+                    <th class="text-end" style="width:130px;">Total</th>
+                    <th class="text-center" style="width:150px;">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for b in boletas_hoy %}
+                    <tr>
+                      <td class="fw-semibold">#{{ b.folio }}</td>
+                      <td class="text-white-50">
+                        {{ b.fecha|date:"H:i" }}
+                      </td>
+                      <td>
+                        {{ b.nombre_cliente|default:"(Sin nombre)" }}
+                      </td>
+                      <td class="text-end fw-semibold">
+                        ${{ b.total|floatformat:0 }}
+                      </td>
+                      <td class="text-center">
+                        <div class="btn-group btn-group-sm" role="group">
+                          <a href="{% url 'caja_ver_boleta' b.pedido_id %}"
+                             class="btn btn-outline-light btn-sm">
+                            Ver
+                          </a>
+                          <a href="{% url 'boleta_pdf' b.pedido_id %}"
+                             class="btn btn-outline-light btn-sm">
+                            PDF
+                          </a>
+                        </div>
+                      </td>
+                    </tr>
+                  {% empty %}
+                    <tr>
+                      <td colspan="5" class="text-center text-white-50 py-3">
+                        No hay boletas registradas hoy.
+                      </td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Historial reciente de ventas -->
+      <div class="col-lg-6">
+        <div class="card border-0 shadow-sm h-100"
+             style="background:rgba(0,0,0,0.9);border-radius:20px;">
+          <div class="card-body text-white p-4">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <div>
+                <h5 class="mb-1">Historial reciente de ventas</h5>
+                <span class="small text-white-50">
+                  Últimas 50 boletas emitidas.
+                </span>
+              </div>
+            </div>
+
+            <div class="table-responsive mt-3" style="max-height:290px;overflow:auto;">
+              <table class="table table-sm table-dark table-hover align-middle mb-0">
+                <thead style="background:rgba(255,255,255,0.04);">
+                  <tr class="small text-white-50">
+                    <th style="width:90px;">Folio</th>
+                    <th style="width:140px;">Fecha / hora</th>
+                    <th>Cliente</th>
+                    <th class="text-end" style="width:130px;">Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for b in ventas_recientes %}
+                    <tr>
+                      <td class="fw-semibold">#{{ b.folio }}</td>
+                      <td class="text-white-50">
+                        {{ b.fecha_emision|date:"d/m H:i" }}
+                      </td>
+                      <td>
+                        {{ b.nombre_cliente|default:"(Sin nombre)" }}
+                      </td>
+                      <td class="text-end fw-semibold">
+                        ${{ b.monto_total|floatformat:0 }}
+                      </td>
+                    </tr>
+                  {% empty %}
+                    <tr>
+                      <td colspan="4" class="text-center text-white-50 py-3">
+                        No hay ventas registradas aún.
+                      </td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SECCIÓN INVENTARIO ==================== -->
+  <section id="seccion-inventario" class="mb-4">
+    <div class="row g-4">
+      <!-- Productos críticos -->
+      <div class="col-lg-5">
+        <div class="card border-0 shadow-sm h-100"
+             style="background:rgba(0,0,0,0.9);border-radius:20px;">
+          <div class="card-body text-white p-4">
+            <h5 class="mb-1">Productos en nivel crítico</h5>
+            <span class="small text-white-50">
+              Stock menor o igual a 10 unidades.
+            </span>
+
+            <div class="table-responsive mt-3" style="max-height:290px;overflow:auto;">
+              <table class="table table-sm table-dark table-hover align-middle mb-0">
+                <thead style="background:rgba(255,255,255,0.04);">
+                  <tr class="small text-white-50">
+                    <th>Producto</th>
+                    <th class="text-end" style="width:90px;">Stock</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for prod in productos_criticos %}
+                    <tr>
+                      <td>{{ prod.nombre }}</td>
+                      <td class="text-end">
+                        {{ prod.stock_actual }}
+                        <span class="badge bg-danger ms-1">Crítico</span>
+                      </td>
+                    </tr>
+                  {% empty %}
+                    <tr>
+                      <td colspan="2" class="text-center text-white-50 py-3">
+                        No hay productos en nivel crítico.
+                      </td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Movimientos recientes inventario -->
+      <div class="col-lg-7">
+        <div class="card border-0 shadow-sm h-100"
+             style="background:rgba(0,0,0,0.9);border-radius:20px;">
+          <div class="card-body text-white p-4">
+            <h5 class="mb-1">Movimientos recientes de inventario</h5>
+            <span class="small text-white-50">
+              Últimos 100 registros de entradas y salidas.
+            </span>
+
+            <div class="table-responsive mt-3" style="max-height:290px;overflow:auto;">
+              <table class="table table-sm table-dark table-hover align-middle mb-0">
+                <thead style="background:rgba(255,255,255,0.04);">
+                  <tr class="small text-white-50">
+                    <th style="width:140px;">Fecha / hora</th>
+                    <th>Producto</th>
+                    <th style="width:110px;">Tipo</th>
+                    <th class="text-end" style="width:90px;">Cantidad</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for mov in movimientos_recientes %}
+                    <tr>
+                      <td class="text-white-50">
+                        {{ mov.fecha|date:"d/m H:i" }}
+                      </td>
+                      <td>{{ mov.producto.nombre }}</td>
+                      <td>
+                        {% if mov.tipo == "entrada" %}
+                          <span class="badge bg-success">Entrada</span>
+                        {% else %}
+                          <span class="badge bg-danger">Salida</span>
+                        {% endif %}
+                      </td>
+                      <td class="text-end">{{ mov.cantidad }}</td>
+                    </tr>
+                  {% empty %}
+                    <tr>
+                      <td colspan="4" class="text-center text-white-50 py-3">
+                        No hay movimientos registrados aún.
+                      </td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ==================== SCRIPTS DE GRÁFICOS ==================== -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  // Datos para gráfico de ventas
+  const ventasLabels = {{ ventas_labels|default:"[]"|safe }};
+  const ventasData   = {{ ventas_data|default:"[]"|safe }};
+
+  const ctxVentas = document.getElementById('ventasChart');
+  if (ctxVentas && ventasLabels.length > 0) {
+    new Chart(ctxVentas, {
+      type: 'line',
+      data: {
+        labels: ventasLabels,
+        datasets: [{
+          label: 'Ventas',
+          data: ventasData,
+          tension: 0.35,
+          fill: false,
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false }
+        },
+        scales: {
+          y: { beginAtZero: true }
+        }
+      }
+    });
+  }
+
+  // Datos para gráfico de movimientos
+  const movLabels   = {{ mov_labels|default:"[]"|safe }};
+  const movEntradas = {{ mov_entradas|default:"[]"|safe }};
+  const movSalidas  = {{ mov_salidas|default:"[]"|safe }};
+
+  const ctxMov = document.getElementById('movimientosChart');
+  if (ctxMov && movLabels.length > 0) {
+    new Chart(ctxMov, {
+      type: 'bar',
+      data: {
+        labels: movLabels,
+        datasets: [
+          {
+            label: 'Entradas',
+            data: movEntradas,
+          },
+          {
+            label: 'Salidas',
+            data: movSalidas,
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: { beginAtZero: true }
+        }
+      }
+    });
+  }
+</script>
+{% endblock %}

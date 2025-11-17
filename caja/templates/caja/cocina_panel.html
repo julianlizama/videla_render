@@ -1,0 +1,200 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<style>
+/* ===========================
+   ESTILOS PANEL DE COCINA
+   =========================== */
+body {
+    color: #fff;
+}
+
+/* Contenedor */
+.kitchen-wrapper {
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+/* PESTAÑAS SUPERIORES */
+.cash-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.cash-tab {
+    padding: 8px 18px;
+    border-radius: 999px;
+    border: 1px solid #555;
+    text-decoration: none;
+    font-size: 0.95rem;
+    color: #ffffff;
+    background: rgba(0, 0, 0, 0.4);
+    transition: all 0.2s ease;
+}
+
+/* Título */
+.kitchen-title {
+    font-size: 2.4rem;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Secciones */
+.kitchen-section-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+/* Tarjetas de pedido */
+.kitchen-card {
+    background: rgba(0,0,0,0.75);
+    border: 1px solid #555;
+    border-radius: 14px;
+    padding: 14px 18px;
+    margin-bottom: 18px;
+}
+
+/* ID del pedido */
+.kitchen-id {
+    background: #c9ff00;
+    color: black;
+    font-weight: 800;
+    padding: 4px 16px;
+    border-radius: 999px;
+    font-size: 1.2rem;
+}
+
+/* Nombre del cliente */
+.kitchen-client {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-top: 10px;
+}
+
+/* Detalle */
+.kitchen-detail {
+    margin-top: 10px;
+    background: rgba(50,50,50,0.5);
+    border-left: 4px solid #c9ff00;
+    padding: 8px 12px;
+    white-space: pre-line;
+}
+
+/* Botones */
+.kitchen-btn {
+    font-size: 1rem !important;
+    padding: 8px 16px !important;
+    border-radius: 999px !important;
+    font-weight: 700 !important;
+    border: none !important;
+    color: white !important;
+}
+
+.kitchen-btn-verde {
+    background: #00c853 !important; /* Verde */
+}
+
+.kitchen-btn-rojo {
+    background: #ff3b3b !important; /* Rojo */
+}
+
+/* Botón TV */
+.kitchen-tv-btn {
+    font-weight: 700;
+    font-size: 1rem;
+}
+</style>
+
+<!-- ===========================
+     AUTO REFRESH CADA 3 SEGUNDOS
+   =========================== -->
+<script>
+setTimeout(function() {
+    window.location.reload();
+}, 3000);
+</script>
+
+<div class="container kitchen-wrapper">
+      <div class="cash-tabs mb-4">
+    <a href="{% url 'caja_panel' %}" class="cash-tab active">Presencial</a>
+    <a href="{% url 'cocina_panel' %}" class="cash-tab">Pedidos Cocina</a>
+    <a href="{% url 'inventario_panel' %}" class="cash-tab">Reportes</a>
+  </div>
+    <h1 class="kitchen-title">Panel de Cocina</h1>
+
+    <div class="text-center mb-4">
+        <a href="/caja/cocina/tv/" target="_blank"
+           class="btn btn-warning kitchen-tv-btn">
+            Abrir pantalla de TV (solo lectura)
+        </a>
+    </div>
+
+    <!-- ===========================
+         PEDIDOS NUEVOS
+    =========================== -->
+    <h3 class="kitchen-section-title">Pedidos Nuevos</h3>
+
+    {% for p in pedidos_nuevos %}
+        <div class="kitchen-card">
+
+            <span class="kitchen-id">#{{ p.id }}</span>
+
+            <div class="kitchen-client">{{ p.nombre_cliente }}</div>
+
+            {% if p.nota %}
+            <div class="kitchen-detail">{{ p.nota }}</div>
+            {% endif %}
+
+            <div class="mt-3">
+                <a href="{% url 'cocina_cambiar_estado' p.id 'en_cocina' %}"
+                   class="btn kitchen-btn kitchen-btn-verde">
+                    Tomar pedido
+                </a>
+            </div>
+
+        </div>
+    {% empty %}
+        <p class="text-muted">No hay pedidos nuevos.</p>
+    {% endfor %}
+
+    <hr class="my-4" style="border-color:#555;">
+
+    <!-- ===========================
+         EN COCINA
+    =========================== -->
+    <h3 class="kitchen-section-title">En Cocina</h3>
+
+    {% for p in pedidos_en_cocina %}
+        <div class="kitchen-card">
+
+            <span class="kitchen-id">#{{ p.id }}</span>
+
+            <div class="kitchen-client">{{ p.nombre_cliente }}</div>
+
+            {% if p.nota %}
+            <div class="kitchen-detail">{{ p.nota }}</div>
+            {% endif %}
+
+            <div class="mt-3">
+                <!-- BOTÓN MARCAR LISTO -->
+                <a href="{% url 'cocina_cambiar_estado' p.id 'listo' %}"
+                   class="btn kitchen-btn kitchen-btn-rojo">
+                    Pedido listo
+                </a>
+            </div>
+
+        </div>
+    {% empty %}
+        <p class="text-muted">No hay pedidos en preparación.</p>
+    {% endfor %}
+
+</div>
+
+{% endblock %}

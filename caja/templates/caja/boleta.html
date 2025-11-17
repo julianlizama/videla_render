@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4 mb-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-6">
+      <div class="card" style="background:#ffffff;border-radius:12px;">
+        <div class="card-body">
+
+          <h4 class="text-center mb-4">BOLETA ELECTRÓNICA (DEMO)</h4>
+
+          <p><strong>RUT:</strong> 76.292.475-3</p>
+          <p><strong>Folio:</strong> #{{ pedido.folio }}</p>
+          <p><strong>Cliente:</strong> {{ pedido.nombre_cliente }}</p>
+          <p><strong>Fecha:</strong> {{ pedido.fecha|date:"d-m-Y H:i" }}</p>
+
+          <hr>
+
+          <h6>Detalle del pedido:</h6>
+          <div class="table-responsive mb-3">
+            <table class="table table-sm mb-0">
+              <thead>
+                <tr>
+                  <th>Producto</th>
+                  <th>Cant</th>
+                  <th>Subtotal</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for d in detalles %}
+                  <tr>
+                    <td>{{ d.producto.nombre }}</td>
+                    <td>{{ d.cantidad }}</td>
+                    <td>${{ d.subtotal|floatformat:0 }}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+
+          <div class="text-end mt-2 mb-3">
+            <strong>TOTAL: ${{ pedido.total|floatformat:0 }}</strong>
+          </div>
+
+          <div class="text-center">
+            <a href="{% url 'inventario_panel' %}" class="btn btn-success">
+              Volver a reportes
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

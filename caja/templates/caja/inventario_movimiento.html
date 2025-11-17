@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4 mb-5">
+
+  <!-- NAVEGACIÓN SUPERIOR -->
+  <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+    <div>
+      <h2 class="text-white mb-1">Movimientos de inventario</h2>
+      <p class="text-white-50 mb-0 small">
+        Entradas y salidas de productos registrados en el sistema.
+      </p>
+    </div>
+
+    <div class="d-flex flex-wrap gap-2">
+      <a href="{% url 'caja_panel' %}"
+         class="btn btn-sm"
+         style="background:#4b3b7a;color:#fff;">
+        Caja presencial
+      </a>
+      <a href="{% url 'cocina_panel' %}"
+         class="btn btn-sm"
+         style="background:#4b3b7a;color:#fff;">
+        Panel cocina
+      </a>
+      <a href="{% url 'inventario_panel' %}"
+         class="btn btn-sm"
+         style="background:#c9ff00;color:#000;font-weight:600;">
+        Reporte diario
+      </a>
+    </div>
+  </div>
+
+  <!-- RESUMEN RÁPIDO -->
+  <div class="row mb-4">
+    <div class="col-md-4 mb-3">
+      <div class="card border-0 shadow-sm"
+           style="background:rgba(0,0,0,0.85);border-radius:14px;">
+        <div class="card-body text-white">
+          <div class="text-white-50 small mb-1">Movimientos listados</div>
+          <div class="fs-1 fw-semibold">
+            {{ movimientos|length }}
+          </div>
+          <div class="text-white-50 small">
+            Últimos movimientos registrados.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-8 mb-3">
+      <div class="card border-0 shadow-sm h-100"
+           style="background:rgba(0,0,0,0.85);border-radius:14px;">
+        <div class="card-body text-white d-flex flex-column justify-content-center">
+          <div class="small text-white-50 mb-2">
+            Indicadores de stock
+          </div>
+          <ul class="small mb-0 text-white-50">
+            <li><strong>Entrada</strong>: aumenta el stock del producto.</li>
+            <li><strong>Salida</strong>: disminuye el stock del producto.</li>
+            <li>
+              <strong>Crítico</strong>: se muestra cuando el stock actual es menor o igual a
+              <span class="badge bg-danger">10 unidades</span>.
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABLA DE MOVIMIENTOS -->
+  <div class="card border-0 shadow-sm"
+       style="background:rgba(0,0,0,0.9);border-radius:16px;">
+    <div class="card-body text-white">
+
+      <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+        <div>
+          <h5 class="mb-0">Historial de movimientos</h5>
+          <span class="small text-white-50">
+            Últimos registros de entradas y salidas de inventario.
+          </span>
+        </div>
+
+        <div class="d-flex flex-wrap gap-2">
+          <a href="{% url 'reporte_movimientos' %}"
+             class="btn btn-sm"
+             style="background:#4b3b7a;color:#fff;">
+            Ver gráfico de movimientos
+          </a>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-sm table-dark table-hover align-middle mb-0">
+          <thead class="align-middle" style="background:rgba(255,255,255,0.04);">
+            <tr>
+              <th style="width:160px;">Fecha / hora</th>
+              <th>Producto</th>
+              <th style="width:110px;">Tipo</th>
+              <th style="width:110px;" class="text-end">Cantidad</th>
+              <th style="width:140px;" class="text-end">Stock actual</th>
+              <th>Motivo</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for mov in movimientos %}
+              {% with stock=mov.producto.stock_actual %}
+              <tr>
+                <td class="text-white-50">
+                  {{ mov.fecha|date:"d/m/Y H:i" }}
+                </td>
+
+                <td>
+                  {{ mov.producto.nombre }}
+                </td>
+
+                <td>
+                  {% if mov.tipo == "entrada" %}
+                    <span class="badge bg-success">Entrada</span>
+                  {% else %}
+                    <span class="badge bg-danger">Salida</span>
+                  {% endif %}
+                </td>
+
+                <td class="text-end">
+                  {{ mov.cantidad }}
+                </td>
+
+                <td class="text-end">
+                  {{ stock }}
+                  {% if stock <= 10 %}
+                    <span class="badge bg-danger ms-1">Crítico</span>
+                  {% endif %}
+                </td>
+
+                <td class="small">
+                  {{ mov.motivo|default:"-" }}
+                </td>
+              </tr>
+              {% endwith %}
+            {% empty %}
+              <tr>
+                <td colspan="6" class="text-center text-white-50 py-4">
+                  No hay movimientos registrados aún.
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="mt-3 d-flex justify-content-between flex-wrap gap-2">
+        <small class="text-white-50">
+          Se muestran los últimos movimientos registrados.  
+          Para análisis de ventas, utiliza el <strong>Reporte diario</strong> o el <strong>Reporte histórico</strong>.
+        </small>
+        <small class="text-white-50">
+          Módulo de Inventario · Quincho Videla
+        </small>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+{% endblock %}

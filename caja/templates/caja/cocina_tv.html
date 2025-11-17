@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<!-- ===========================
+     ESTILOS MODO TV – SOLO LISTA DE PEDIDOS
+     =========================== -->
+<style>
+.cocina-tv-wrapper {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: #ffffff;
+}
+
+/* Título grande para TV */
+.cocina-tv-title {
+    font-size: 3rem;
+    font-weight: 800;
+    text-align: center;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+}
+
+.cocina-tv-subtitle {
+    font-size: 1.2rem;
+    text-align: center;
+    color: #cccccc;
+    margin-bottom: 18px;
+}
+
+/* Panel principal: ocupa casi toda la altura */
+.cocina-tv-panel {
+    background: rgba(0,0,0,0.85);
+    border-radius: 18px;
+    border: 1px solid #444;
+    padding: 16px 20px;
+    box-shadow: 0 0 28px rgba(0,0,0,0.9);
+    height: calc(100vh - 170px);
+    overflow-y: auto;
+}
+
+/* Cada pedido */
+.cocina-tv-ticket {
+    background: rgba(15,15,15,0.96);
+    border-radius: 14px;
+    border: 1px solid #555;
+    padding: 14px 18px;
+    margin-bottom: 14px;
+}
+
+/* Encabezado: Nº pedido */
+.cocina-tv-header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 12px;
+}
+
+.cocina-tv-id {
+    background: #c9ff00;
+    color: black;
+    font-weight: 800;
+    padding: 4px 16px;
+    border-radius: 999px;
+    font-size: 1.5rem;
+}
+
+/* Nombre del cliente */
+.cocina-tv-client {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+/* Detalle del pedido (texto libre) */
+.cocina-tv-detail {
+    margin-top: 8px;
+    background: rgba(50,50,50,0.45);
+    border-left: 4px solid #c9ff00;
+    padding: 8px 10px;
+    white-space: pre-line;
+    font-size: 1.2rem;
+}
+
+/* Ajuste para pantallas muy grandes */
+@media (min-width: 1600px) {
+    .cocina-tv-title { font-size: 3.4rem; }
+    .cocina-tv-ticket { padding: 18px 22px; }
+    .cocina-tv-detail { font-size: 1.3rem; }
+}
+</style>
+
+<!-- ===========================
+     AUTO-REFRESH CADA 5 SEGUNDOS
+     =========================== -->
+<script>
+  // Refresca la página cada 5 segundos para mostrar / quitar pedidos
+  setTimeout(function() {
+      window.location.reload();
+  }, 5000);
+</script>
+
+
+<div class="container-fluid cocina-tv-wrapper">
+
+    <h1 class="cocina-tv-title">COCINA</h1>
+    <p class="cocina-tv-subtitle">Vista de pedidos</p>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="cocina-tv-panel">
+
+                {% for p in pedidos_tv %}
+                <div class="cocina-tv-ticket">
+
+                    <div class="cocina-tv-header">
+                        <span class="cocina-tv-id">#{{ p.id }}</span>
+                    </div>
+
+                    <div class="cocina-tv-client">
+                        {{ p.nombre_cliente|default:"(Sin nombre)" }}
+                    </div>
+
+                    {% if p.nota %}
+                    <div class="cocina-tv-detail">
+                        {{ p.nota }}
+                    </div>
+                    {% endif %}
+
+                </div>
+                {% empty %}
+                    <p class="text-white-50">No hay pedidos en cocina.</p>
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

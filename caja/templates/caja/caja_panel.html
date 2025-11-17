@@ -1,0 +1,340 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<style>
+/* ===========================
+   PANEL DE CAJA – INTERFAZ PROFESIONAL
+   =========================== */
+
+.cash-wrapper {
+    margin-top: 20px;
+    margin-bottom: 30px;
+    color: #ffffff;
+}
+
+/* PESTAÑAS SUPERIORES */
+.cash-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.cash-tab {
+    padding: 8px 18px;
+    border-radius: 999px;
+    border: 1px solid #555;
+    text-decoration: none;
+    font-size: 0.95rem;
+    color: #ffffff;
+    background: rgba(0, 0, 0, 0.4);
+    transition: all 0.2s ease;
+}
+
+.cash-tab:hover {
+    background: rgba(201, 255, 0, 0.12);
+    border-color: #c9ff00;
+}
+
+.cash-tab.active {
+    background: #c9ff00;
+    color: #000;
+    font-weight: 700;
+    border-color: #c9ff00;
+}
+
+/* TARJETA PRINCIPAL */
+.cash-card {
+    background: rgba(0, 0, 0, 0.85);
+    border-radius: 18px;
+    border: 1px solid #444;
+    padding: 22px 20px;
+    box-shadow: 0 0 24px rgba(0, 0, 0, 0.9);
+}
+
+/* CABECERA */
+.cash-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+.cash-title {
+    font-size: 1.9rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
+.cash-subtitle {
+    font-size: 0.95rem;
+    color: #cccccc;
+    margin: 0;
+}
+
+/* FECHA Y HORA */
+.cash-datebox {
+    text-align: right;
+    font-size: 0.95rem;
+}
+
+.cash-date-line {
+    background: rgba(30, 30, 30, 0.9);
+    padding: 4px 10px;
+    border-radius: 999px;
+    border: 1px solid #555;
+    margin-bottom: 4px;
+}
+
+.cash-time {
+    font-weight: 600;
+    color: #c9ff00;
+}
+
+/* FORMULARIO */
+.cash-form {
+    margin-top: 10px;
+}
+
+.cash-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin-bottom: 4px;
+}
+
+.cash-input,
+.cash-textarea {
+    background: rgba(20, 20, 20, 0.9);
+    border-radius: 10px;
+    border: 1px solid #555;
+    color: #ffffff;
+    font-size: 0.95rem;
+}
+
+.cash-input:focus,
+.cash-textarea:focus {
+    border-color: #c9ff00;
+    box-shadow: 0 0 0 0.15rem rgba(201, 255, 0, 0.25);
+}
+
+/* RADIO BUTTONS */
+.cash-radio-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.cash-radio {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(25, 25, 25, 0.9);
+    border-radius: 999px;
+    padding: 6px 12px;
+    cursor: pointer;
+    border: 1px solid #555;
+    font-size: 0.9rem;
+    user-select: none;
+}
+
+.cash-radio input {
+    accent-color: #c9ff00;
+}
+
+/* TEXTAREA */
+.cash-textarea {
+    min-height: 110px;
+    resize: vertical;
+}
+
+/* TOTAL */
+.cash-total-input {
+    font-size: 1.05rem;
+    font-weight: 600;
+}
+
+.cash-hint {
+    font-size: 0.85rem;
+    color: #bbbbbb;
+    text-align: right;
+}
+
+/* BOTONES */
+.cash-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.cash-btn {
+    font-size: 0.95rem !important;
+    padding: 8px 18px !important;
+    border-radius: 999px !important;
+    font-weight: 700 !important;
+    border-width: 1px !important;
+}
+
+.cash-btn-primary {
+    background: #c9ff00 !important;
+    color: #000 !important;
+    border-color: #c9ff00 !important;
+}
+
+.cash-btn-primary:hover {
+    background: #d9ff3b !important;
+}
+
+.cash-btn-secondary {
+    background: transparent !important;
+    color: #ffffff !important;
+    border-color: #ffffff !important;
+}
+
+.cash-btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* RESPONSIVE */
+@media (max-width: 576px) {
+    .cash-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .cash-datebox {
+        text-align: left;
+    }
+
+    .cash-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .cash-btn {
+        width: 100%;
+        text-align: center;
+    }
+}
+</style>
+
+
+<div class="container cash-wrapper">
+
+  <!-- PESTAÑAS -->
+  <div class="cash-tabs mb-4">
+    <a href="{% url 'caja_panel' %}" class="cash-tab active">Presencial</a>
+    <a href="{% url 'cocina_panel' %}" class="cash-tab">Pedidos Cocina</a>
+    <a href="{% url 'inventario_panel' %}" class="cash-tab">Reportes</a>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-lg-8 col-xl-7">
+      <div class="cash-card">
+
+        <!-- CABECERA -->
+        <div class="cash-header">
+          <div>
+            <h2 class="cash-title">Caja Videla</h2>
+            <p class="cash-subtitle">
+              Ingreso rápido de pedidos · Envío automático a cocina
+            </p>
+          </div>
+
+          <div class="cash-datebox">
+            <div class="cash-date-line">{{ dia }}/{{ mes }}/{{ ano }}</div>
+            <div class="cash-date-line cash-time">⏰ {{ hora }}</div>
+          </div>
+        </div>
+
+        <!-- FORMULARIO -->
+        <form method="post" class="cash-form">
+          {% csrf_token %}
+
+          <div class="row g-3 mb-2">
+            <div class="col-md-6">
+              <label class="cash-label">Nombre</label>
+              <input type="text" name="nombre" class="form-control cash-input">
+            </div>
+            <div class="col-md-6">
+              <label class="cash-label">Teléfono</label>
+              <input type="text" name="telefono" class="form-control cash-input">
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="cash-label">Dirección</label>
+            <input type="text" name="direccion" class="form-control cash-input">
+          </div>
+
+          <div class="row g-3 mb-3">
+
+            <!-- PAGO -->
+            <div class="col-md-6">
+              <label class="cash-label">Forma de pago</label>
+              <div class="cash-radio-group">
+                <label class="cash-radio"><input type="radio" name="forma_pago" value="efectivo"> Efectivo</label>
+                <label class="cash-radio"><input type="radio" name="forma_pago" value="transferencia"> Transferencia</label>
+                <label class="cash-radio"><input type="radio" name="forma_pago" value="tarjeta"> Tarjetas</label>
+              </div>
+            </div>
+
+            <!-- ENTREGA -->
+            <div class="col-md-6">
+              <label class="cash-label">Tipo de entrega</label>
+              <div class="cash-radio-group">
+                <label class="cash-radio"><input type="radio" name="tipo_entrega" value="retiro"> Retiro</label>
+                <label class="cash-radio"><input type="radio" name="tipo_entrega" value="reparto"> Reparto</label>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- DETALLE -->
+          <div class="mb-3">
+            <label class="cash-label">Detalle del pedido</label>
+            <textarea name="detalle" rows="4" class="form-control cash-textarea"
+            placeholder="-ingresa pedido"></textarea>
+          </div>
+
+          <!-- TOTAL -->
+          <div class="row g-3 align-items-end mb-4">
+            <div class="col-md-4">
+              <label class="cash-label">Total $</label>
+              <input type="number" min="0" step="100" name="total"
+                     class="form-control cash-input cash-total-input">
+            </div>
+            <div class="col-md-8 text-md-end mt-3 mt-md-0">
+              <div class="cash-hint">
+                Este total se usará para cocina y boleta.
+              </div>
+            </div>
+          </div>
+
+          <!-- BOTONES -->
+          <div class="cash-actions">
+            <a href="{% url 'cocina_panel' %}" class="btn cash-btn cash-btn-secondary">
+              Ver pedidos en cocina
+            </a>
+
+            <button type="submit" class="btn cash-btn cash-btn-primary">
+              Enviar a cocina
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}
