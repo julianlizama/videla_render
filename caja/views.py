@@ -141,7 +141,7 @@ def caja_panel(request):
         )
 
         # 3) Volvemos a la misma pantalla de caja
-        return redirect("caja_panel")
+        return redirect("caja:caja_panel")
 
     contexto = {
         "dia": ahora.strftime("%d"),
