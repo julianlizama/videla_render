@@ -13,23 +13,23 @@
     </div>
 
     <div class="d-flex flex-wrap gap-2">
-      <a href="{% url 'caja_panel' %}"
-         class="btn btn-sm px-3 py-2"
-         style="background:#4b3b7a;color:#fff;border-radius:999px;">
-        Caja presencial
-      </a>
-      <a href="{% url 'cocina_panel' %}"
-         class="btn btn-sm px-3 py-2"
-         style="background:#4b3b7a;color:#fff;border-radius:999px;">
-        Panel cocina
-      </a>
-      <a href="{% url 'inventario_panel' %}"
-         class="btn btn-sm px-3 py-2"
-         style="background:#c9ff00;color:#000;font-weight:600;border-radius:999px;">
-        Dashboard
-      </a>
-    </div>
-  </div>
+  <a href="{% url 'caja:caja_panel' %}"
+     class="btn btn-sm px-3 py-2"
+     style="background:#4b3b7a;color:#fff;border-radius:999px;">
+    Caja presencial
+  </a>
+  <a href="{% url 'caja:cocina_panel' %}"
+     class="btn btn-sm px-3 py-2"
+     style="background:#4b3b7a;color:#fff;border-radius:999px;">
+    Panel cocina
+  </a>
+  <a href="{% url 'caja:inventario_panel' %}"
+     class="btn btn-sm px-3 py-2"
+     style="background:#c9ff00;color:#000;border-radius:999px;">
+    Dashboard inventario
+  </a>
+</div>
+
 
   <!-- PESTAÑAS DE SECCIÓN (ANCLAS) -->
   <div class="card mb-4 border-0 shadow-sm"
@@ -139,7 +139,7 @@
               </p>
             </div>
             <div class="d-flex flex-wrap gap-2 mt-3">
-              <a href="{% url 'exportar_ventas_excel' %}"
+              <a href="{% url 'caja:exportar_ventas_excel' %}"
                  class="btn btn-sm px-3 py-2"
                  style="background:#c9ff00;color:#000;font-weight:600;border-radius:999px;">
                 Exportar ventas a Excel
@@ -200,7 +200,7 @@
               </p>
             </div>
             <div class="d-flex flex-wrap gap-2 mt-3">
-              <a href="{% url 'exportar_inventario_excel' %}"
+              <a href="{% url 'caja:exportar_inventario_excel' %}"
                  class="btn btn-sm px-3 py-2"
                  style="background:#c9ff00;color:#000;font-weight:600;border-radius:999px;">
                 Exportar inventario a Excel
@@ -300,11 +300,11 @@
                       </td>
                       <td class="text-center">
                         <div class="btn-group btn-group-sm" role="group">
-                          <a href="{% url 'caja_ver_boleta' b.pedido_id %}"
+                          <a href="{% url 'caja:caja_ver_boleta' b.pedido_id %}"
                              class="btn btn-outline-light btn-sm">
                             Ver
                           </a>
-                          <a href="{% url 'boleta_pdf' b.pedido_id %}"
+                          <a href="{% url 'caja:boleta_pdf' b.pedido_id %}"
                              class="btn btn-outline-light btn-sm">
                             PDF
                           </a>
