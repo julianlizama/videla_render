@@ -153,12 +153,11 @@ setTimeout(function() {
             <div class="kitchen-detail">{{ p.nota }}</div>
             {% endif %}
 
-            <div class="mt-3">
-                <a href="{% url 'cocina_cambiar_estado' p.id 'en_cocina' %}"
-                   class="btn kitchen-btn kitchen-btn-verde">
-                    Tomar pedido
-                </a>
-            </div>
+            <a href="{% url 'caja:cocina_cambiar_estado' p.id 'en_cocina' %}"
+   class="btn kitchen-btn kitchen-btn-verde">
+    Tomar pedido
+</a>
+
 
         </div>
     {% empty %}
@@ -185,7 +184,7 @@ setTimeout(function() {
 
             <div class="mt-3">
                 <!-- BOTÓN MARCAR LISTO -->
-                <a href="{% url 'cocina_cambiar_estado' p.id 'listo' %}"
+                <a href="{% url 'caja:cocina_cambiar_estado' p.id 'listo' %}"
                    class="btn kitchen-btn kitchen-btn-rojo">
                     Pedido listo
                 </a>
