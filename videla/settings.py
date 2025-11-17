@@ -11,7 +11,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 LOGIN_URL = "login"
-LOGIN_REDIRECT_URL = "panel_caja"  # por ejemplo
+LOGIN_REDIRECT_URL = 'caja:caja_panel'
+
 LOGOUT_REDIRECT_URL = "index"      # volver al inicio público
 
 

@@ -231,9 +231,9 @@
 
   <!-- PESTAÑAS -->
   <div class="cash-tabs mb-4">
-    <a href="{% url 'caja_panel' %}" class="cash-tab active">Presencial</a>
-    <a href="{% url 'cocina_panel' %}" class="cash-tab">Pedidos Cocina</a>
-    <a href="{% url 'inventario_panel' %}" class="cash-tab">Reportes</a>
+    <a href="{% url 'caja:caja_panel' %}" class="cash-tab active">Presencial</a>
+    <a href="{% url 'caja:cocina_panel' %}" class="cash-tab">Pedidos Cocina</a>
+    <a href="{% url 'caja:inventario_panel' %}" class="cash-tab">Reportes</a>
   </div>
 
   <div class="row justify-content-center">
@@ -321,7 +321,7 @@
 
           <!-- BOTONES -->
           <div class="cash-actions">
-            <a href="{% url 'cocina_panel' %}" class="btn cash-btn cash-btn-secondary">
+            <a href="{% url 'caja:cocina_panel' %}" class="btn cash-btn cash-btn-secondary">
               Ver pedidos en cocina
             </a>
 
