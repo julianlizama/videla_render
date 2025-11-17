@@ -1,22 +1,44 @@
-<!-- templates/accounts/login.html -->
-{% extends "base.html" %}
+{% extends 'base.html' %}
+
 {% block content %}
 <div class="container mt-5" style="max-width: 400px;">
   <div class="card shadow-sm">
     <div class="card-body">
       <h4 class="mb-3 text-center">Acceso a caja</h4>
-      <form method="post">
+
+      <form method="post" novalidate>
         {% csrf_token %}
-        {{ form.non_field_errors }}
+
+        {# Errores generales del formulario #}
+        {% if form.non_field_errors %}
+          <div class="alert alert-danger">
+            {{ form.non_field_errors }}
+          </div>
+        {% endif %}
+
         <div class="mb-3">
-          <label class="form-label">Usuario</label>
-          {{ form.username|add_class:"form-control" }}
+          <label class="form-label" for="{{ form.username.id_for_label }}">Usuario</label>
+          {{ form.username }}
+          {% if form.username.errors %}
+            <div class="text-danger small">
+              {{ form.username.errors }}
+            </div>
+          {% endif %}
         </div>
+
         <div class="mb-3">
-          <label class="form-label">Contraseña</label>
-          {{ form.password|add_class:"form-control" }}
+          <label class="form-label" for="{{ form.password.id_for_label }}">Contraseña</label>
+          {{ form.password }}
+          {% if form.password.errors %}
+            <div class="text-danger small">
+              {{ form.password.errors }}
+            </div>
+          {% endif %}
         </div>
-        <button type="submit" class="btn btn-primary w-100">Ingresar</button>
+
+        <button type="submit" class="btn btn-primary w-100">
+          Ingresar
+        </button>
       </form>
     </div>
   </div>
