@@ -123,10 +123,11 @@ setTimeout(function() {
 
 <div class="container kitchen-wrapper">
       <div class="cash-tabs mb-4">
-    <a href="{% url 'caja_panel' %}" class="cash-tab active">Presencial</a>
-    <a href="{% url 'cocina_panel' %}" class="cash-tab">Pedidos Cocina</a>
-    <a href="{% url 'inventario_panel' %}" class="cash-tab">Reportes</a>
-  </div>
+    <a href="{% url 'caja:caja_panel' %}" class="cash-tab">Presencial</a>
+    <a href="{% url 'caja:cocina_panel' %}" class="cash-tab active">Pedidos Cocina</a>
+    <a href="{% url 'caja:inventario_panel' %}" class="cash-tab">Reportes</a>
+</div>
+
     <h1 class="kitchen-title">Panel de Cocina</h1>
 
     <div class="text-center mb-4">
