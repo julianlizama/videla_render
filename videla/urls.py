@@ -4,16 +4,26 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 
-
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", include("menu.urls")),
-    path("caja/", include("caja.urls")),  # 👈 importante
-    
-    path("accounts/login/", auth_views.LoginView.as_view(template_name="accounts/login.html"), name="login"),
-    path("accounts/logout/", auth_views.LogoutView.as_view(), name="logout"),
 
+    # Home / menú
+    path("", include("menu.urls")),
+
+    # Caja (solo una vez)
     path("caja/", include("caja.urls")),
+
+    # Auth
+    path(
+        "accounts/login/",
+        auth_views.LoginView.as_view(template_name="accounts/login.html"),
+        name="login",
+    ),
+    path(
+        "accounts/logout/",
+        auth_views.LogoutView.as_view(),
+        name="logout",
+    ),
 ]
 
 if settings.DEBUG:
