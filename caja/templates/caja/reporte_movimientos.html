@@ -13,21 +13,22 @@
     </div>
 
     <div class="d-flex flex-wrap gap-2">
-      <a href="{% url 'caja_panel' %}"
-         class="btn btn-sm"
-         style="background:#4b3b7a;color:#fff;">
-        Caja presencial
-      </a>
-      <a href="{% url 'cocina_panel' %}"
-         class="btn btn-sm"
-         style="background:#4b3b7a;color:#fff;">
-        Panel cocina
-      </a>
-      <a href="{% url 'inventario_panel' %}"
-         class="btn btn-sm"
-         style="background:#c9ff00;color:#000;font-weight:600;">
-        Reporte diario
-      </a>
+      <a href="{% url 'caja:caja_panel' %}"
+      class="btn btn-sm"
+      style="background:#4b3b7a;color:#fff;">
+    Caja presencial
+    </a>
+    <a href="{% url 'caja:cocina_panel' %}"
+      class="btn btn-sm"
+      style="background:#4b3b7a;color:#fff;">
+  Panel cocina
+    </a>
+<a href="{% url 'caja:inventario_panel' %}"
+   class="btn btn-sm"
+   style="background:#4b3b7a;color:#fff;">
+  Inventario
+</a>
+
     </div>
   </div>
 
@@ -82,11 +83,8 @@
         </div>
 
         <div class="d-flex flex-wrap gap-2">
-          <a href="{% url 'reporte_movimientos' %}"
-             class="btn btn-sm"
-             style="background:#4b3b7a;color:#fff;">
-            Ver gráfico de movimientos
-          </a>
+
+
         </div>
       </div>
 

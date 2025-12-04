@@ -10,8 +10,8 @@ urlpatterns = [
     # Home / menú
     path("", include("menu.urls")),
 
-    # Caja (solo una vez)
-    path("caja/", include("caja.urls")),
+    # Caja con namespace "caja"
+    path("caja/", include(("caja.urls", "caja"), namespace="caja")),
 
     # Auth
     path(

@@ -19,5 +19,3 @@ urlpatterns = [
     path("ordenes/failure/", views.failure, name="failure"),
     path("ordenes/pending/", views.pending, name="pending"),
 ]
-
-

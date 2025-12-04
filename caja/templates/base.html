@@ -3,11 +3,166 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Videla</title>
-  <link rel="stylesheet" href="{% static 'estilo.css' %}">
+    <meta charset="UTF-8">
+    <title>Panel Quincho Videla</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap 5 -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+        crossorigin="anonymous"
+    >
+
+    <!-- Estilos globales del sitio -->
+    <link rel="stylesheet" href="{% static 'estilo.css' %}">
+
+    <style>
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .panel-wrapper {
+            flex: 1;
+            padding-top: 1rem;
+            padding-bottom: 2rem;
+        }
+
+        .navbar-videla-interna {
+            background: rgba(0, 0, 0, 0.9);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .navbar-videla-interna .navbar-brand {
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            font-size: 0.95rem;
+        }
+
+        .navbar-videla-interna .nav-link {
+            font-size: 0.9rem;
+        }
+
+        .panel-card {
+            background: rgba(0,0,0,0.85);
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .panel-card-header {
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .pill-badge {
+            border-radius: 999px;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.7rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+    </style>
 </head>
 <body>
-  {% block content %}{% endblock %}
+
+<nav class="navbar navbar-expand-lg navbar-dark navbar-videla-interna sticky-top">
+    <div class="container-fluid px-3 px-md-4">
+
+        <!-- Marca -->
+        <a class="navbar-brand d-flex align-items-center gap-2" href="{% url 'caja:caja_panel' %}">
+            <span>🧾 Panel Quincho Videla</span>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarCaja" aria-controls="navbarCaja"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarCaja">
+
+            <!-- Menú izquierda -->
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'caja:caja_panel' %}">Caja presencial</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'caja:cocina_panel' %}">Panel cocina</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'caja:cocina_tv' %}">TV cocina</a>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        Inventario / Reportes
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark">
+                        <li>
+                            <a class="dropdown-item" href="{% url 'caja:inventario_panel' %}">
+                                Dashboard inventario
+                            </a>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <a class="dropdown-item" href="{% url 'caja:reporte_ventas' %}">
+                                Reporte de ventas
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="{% url 'caja:reporte_movimientos' %}">
+                                Reporte de movimientos
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+            </ul>
+
+            <!-- Menú derecha -->
+            <div class="d-flex align-items-center gap-3">
+
+                <a href="{% url 'index' %}"
+                   class="btn btn-sm btn-outline-light">
+                    Ver sitio público
+                </a>
+
+                {% if user.is_authenticated %}
+                    <span class="text-light small d-none d-md-inline">
+                        {{ user.username }}
+                    </span>
+                    <a href="{% url 'logout' %}" class="btn btn-sm btn-danger">
+                        Cerrar sesión
+                    </a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-sm btn-outline-light">
+                        Iniciar sesión
+                    </a>
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
+</nav>
+
+<main class="panel-wrapper container-fluid px-3 px-md-4">
+    {% block content %}{% endblock %}
+</main>
+
+<!-- Bootstrap JS -->
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous">
+</script>
+
 </body>
 </html>
