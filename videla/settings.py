@@ -3,8 +3,17 @@ import os
 from pathlib import Path
 import dj_database_url  # Para manejar DATABASE_URL (PostgreSQL en Render)
 
+# Cloudinary
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
+
+# ==========================
 # RUTA BASE DEL PROYECTO
+# ==========================
 BASE_DIR = Path(__file__).resolve().parent.parent
+
 
 # ==========================
 # AUTENTICACIÓN / LOGIN
@@ -12,6 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 LOGIN_URL = "login"
 LOGIN_REDIRECT_URL = "caja:caja_panel"
 LOGOUT_REDIRECT_URL = "index"  # volver al inicio público
+
 
 # ==========================
 # SEGURIDAD / DEBUG
@@ -25,10 +35,6 @@ ALLOWED_HOSTS = [
     if h.strip()
 ]
 
-# Si quieres, puedes agregar explícitamente tu dominio de Render:
-# CSRF_TRUSTED_ORIGINS = [
-#     "https://videla-web.onrender.com",
-# ]
 
 # ==========================
 # APLICACIONES INSTALADAS
@@ -41,17 +47,24 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+
     # Apps del proyecto
     "menu",
     "caja",
+
+    # Cloudinary
+    "cloudinary",
+    "cloudinary_storage",
 ]
+
 
 # ==========================
 # MIDDLEWARE
 # ==========================
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    # WhiteNoise para servir estáticos en producción
+
+    # WhiteNoise para producción
     "whitenoise.middleware.WhiteNoiseMiddleware",
 
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -62,8 +75,9 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+
 # ==========================
-# URLs / TEMPLATES / WSGI
+# URLS / TEMPLATES / WSGI
 # ==========================
 ROOT_URLCONF = "videla.urls"
 
@@ -88,87 +102,105 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "videla.wsgi.application"
 
+
 # ==========================
 # BASE DE DATOS
 # ==========================
-# En local (sin DATABASE_URL) → SQLite
-# En Render (con DATABASE_URL) → PostgreSQL
 DATABASES = {
     "default": dj_database_url.config(
-        default=os.getenv(
-            "DATABASE_URL",
-            f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
-        ),
-        conn_max_age=600,  # Mantiene conexiones abiertas (bueno para prod)
+        default=os.getenv("DATABASE_URL", f"sqlite:///{BASE_DIR / 'db.sqlite3'}"),
+        conn_max_age=600,
     )
 }
 
-# ==========================
-# PASSWORDS / VALIDADORES
-# ==========================
-AUTH_PASSWORD_VALIDATORS = []  # Puedes agregar validadores si quieres
 
 # ==========================
-# IDIOMA / ZONA HORARIA
+# PASSWORDS
+# ==========================
+AUTH_PASSWORD_VALIDATORS = []
+
+
+# ==========================
+# IDIOMA / HORARIO
 # ==========================
 LANGUAGE_CODE = "es-cl"
 TIME_ZONE = "America/Punta_Arenas"
 USE_I18N = True
 USE_TZ = True
 
+
 # ==========================
 # ARCHIVOS ESTÁTICOS Y MEDIA
 # ==========================
 STATIC_URL = "/static/"
 
-# Archivos estáticos del proyecto (CSS, JS, imágenes públicas)
 STATICFILES_DIRS = [
     BASE_DIR / "menu" / "static",
 ]
 
-# Carpeta donde collectstatic deja los archivos para producción
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-# Django 4.2+ usa STORAGES en lugar de STATICFILES_STORAGE
+
+# ⚡ SISTEMA MODERNO DE DJANGO 4.2 (STORAGES)
 STORAGES = {
+    # ---------------------------
+    # Almacenamiento de MEDIA → Cloudinary
+    # ---------------------------
     "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
     },
+
+    # ---------------------------
+    # Archivos estáticos → WhiteNoise
+    # ---------------------------
     "staticfiles": {
-        # WhiteNoise con compresión y manifest
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
 
-# Archivos subidos por usuarios
+
+# Aunque Django ya no usa MEDIA_ROOT con Cloudinary, no molesta dejarlo
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
+
+
+# ==========================
+# CLOUDINARY CONFIG
+# ==========================
+CLOUDINARY_STORAGE = {
+    "CLOUD_NAME": os.environ.get("CLOUDINARY_CLOUD_NAME"),
+    "API_KEY": os.environ.get("CLOUDINARY_API_KEY"),
+    "API_SECRET": os.environ.get("CLOUDINARY_API_SECRET"),
+}
+
+cloudinary.config(
+    cloud_name=os.environ.get("CLOUDINARY_CLOUD_NAME"),
+    api_key=os.environ.get("CLOUDINARY_API_KEY"),
+    api_secret=os.environ.get("CLOUDINARY_API_SECRET"),
+)
+
 
 # ==========================
 # CONFIG GENERAL
 # ==========================
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# ==========================
-# VARIABLES PERSONALIZADAS
-# ==========================
 SITE_URL = os.getenv("SITE_URL", "http://127.0.0.1:8000")
 MP_ACCESS_TOKEN = os.getenv("MP_ACCESS_TOKEN", "")
 
+
 # ==========================
-# JAZZMIN (Panel Admin)
+# JAZZMIN
 # ==========================
 JAZZMIN_SETTINGS = {
     "site_title": "Panel Quincho Videla",
     "site_header": "Quincho Videla",
     "site_brand": "Quincho Videla",
     "welcome_sign": "Bienvenido al panel de administración",
-    "copyright": "Quincho Videla",
-    # "site_logo": "logo.png",  # cuando tengas un logo en /static
 }
 
 JAZZMIN_UI_TWEAKS = {
-    "theme": "darkly",          # Tema oscuro
+    "theme": "darkly",
     "navbar": "navbar-dark",
     "navbar_fixed": True,
     "sidebar_fixed": True,
