@@ -167,16 +167,21 @@ MEDIA_ROOT = BASE_DIR / "media"
 # ==========================
 # CLOUDINARY CONFIG
 # ==========================
+# Valores base para Cloudinary (pueden venir de entorno o ir fijos)
+CLOUDINARY_CLOUD_NAME = os.environ.get("CLOUDINARY_CLOUD_NAME", "dlnjnqqtx")
+CLOUDINARY_API_KEY = os.environ.get("CLOUDINARY_API_KEY", "449198878636936")
+CLOUDINARY_API_SECRET = os.environ.get("CLOUDINARY_API_SECRET", "mtFqu2l3C2-nLMLiFtkZ6CqWVd0")
+
 CLOUDINARY_STORAGE = {
-    "CLOUD_NAME": os.environ.get("CLOUDINARY_CLOUD_NAME"),
-    "API_KEY": os.environ.get("CLOUDINARY_API_KEY"),
-    "API_SECRET": os.environ.get("CLOUDINARY_API_SECRET"),
+    "CLOUD_NAME": CLOUDINARY_CLOUD_NAME,
+    "API_KEY": CLOUDINARY_API_KEY,
+    "API_SECRET": CLOUDINARY_API_SECRET,
 }
 
 cloudinary.config(
-    cloud_name=os.environ.get("CLOUDINARY_CLOUD_NAME"),
-    api_key=os.environ.get("CLOUDINARY_API_KEY"),
-    api_secret=os.environ.get("CLOUDINARY_API_SECRET"),
+    cloud_name=CLOUDINARY_CLOUD_NAME,
+    api_key=CLOUDINARY_API_KEY,
+    api_secret=CLOUDINARY_API_SECRET,
 )
 
 
@@ -207,3 +212,5 @@ JAZZMIN_UI_TWEAKS = {
     "sidebar": "sidebar-dark-primary",
     "body_small_text": False,
 }
+
+WHATSAPP_NUMERO = os.getenv("WHATSAPP_NUMERO", "56997121129")
